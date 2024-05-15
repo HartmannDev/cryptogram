@@ -73,7 +73,7 @@ export default function GridGame({ finishGame, gameData }:Props){
           })
         }
       </div>
-      <button onClick={()=>finishGame(false)}>come back</button>
+      <button onClick={()=>finishGame('menu')}>come back</button>
     </div>
   )
 }

@@ -62,12 +62,17 @@ const getArrayRandomPosition = (arr:datamuseResponseType[], wordLenght?:number):
       break
     }
     const item = arr[randonPos]
-    const isWordLenghtCorrect = item.word.replace(' ', '').length === wordLenght
-    const hasDefinition = item.hasOwnProperty('defs')
-    
-    if(isWordLenghtCorrect&&hasDefinition){
-      isWordValid = true
+    try{
+      const isWordLenghtCorrect = item.word.replace(' ', '').length === wordLenght
+      const hasDefinition = item.hasOwnProperty('defs')
+      if(isWordLenghtCorrect&&hasDefinition){
+        isWordValid = true
+      }
+    }catch(err){
+      console.log(err)
+      console.log(item, arr, randonPos)
     }
+    
   }while(!isWordValid)
 
   return arr[randonPos]

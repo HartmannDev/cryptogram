@@ -20,7 +20,9 @@ export default function StartPage({ startGame }:{startGame:Function}){
       <div className='flex justify-center'>
         <button
           className='bg-sky-700 px-10 py-2 rounded-full'
-          onClick={()=>startGame(true)}
+          onClick={()=>{
+            startGame('loading')
+          }}
         >
           Start
         </button>

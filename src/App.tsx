@@ -48,6 +48,8 @@ const gameData:GameDataType = {
   gridMap:[]
 }
 
+let newGame = true
+
 const mapGrid = (expressionPosition:LettersPosition[])=>{
   gameData.wordsData.map((word, lineID)=>{
     word.word.split('').map((letter, cellID)=>{
@@ -94,24 +96,29 @@ const GameInit = async (setLoadingGame:Function) =>{
   
   gameData.lettersData = getWordsLetters(gameData.wordsData)
   mapGrid(expressionPosition)
-  console.log("star game")
   console.log(gameData)
-  setLoadingGame(false)
+  setLoadingGame('running')
+}
+
+const resetGame = (setGameStatus:Function)=>{
+  setGameStatus('menu')
+  newGame = true
 }
 
 function App() {
-  const [startGame, setStartGame] = useState(false)
-  const [loardingGame, setLoadingGame] = useState(true)
+  const [gameStatus, setGameStatus] = useState('menu')
 
-  if(startGame){
-    if(loardingGame){
-      GameInit(setLoadingGame)
-      return <LoadingGame/>
-    }
-    return <GridGame finishGame={setStartGame} gameData={gameData}/>
+  if(gameStatus==='loading'&&newGame){
+    newGame = false
+    GameInit(setGameStatus)
+    return <LoadingGame/>
   }
 
-  return <StartPage startGame={setStartGame}/>
+  if(gameStatus==='running'){
+    return <GridGame finishGame={()=>resetGame(setGameStatus)} gameData={gameData}/>
+  }
+
+  return <StartPage startGame={setGameStatus}/>
 }
 
 export default App

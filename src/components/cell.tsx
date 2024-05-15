@@ -6,12 +6,14 @@ type Props = {
   selectedIcon:string
   onClick:Function
   onDoubleClick:Function
+  isMainExpression?:boolean
 }
 
-export default function Cell({ index, symbol, value, selectedId, selectedIcon, onClick, onDoubleClick }:Props){
+export default function Cell({ index, symbol, value, selectedId, selectedIcon, onClick, onDoubleClick, isMainExpression }:Props){
   const cellVariants = {
     normal: 'border-cyan-500 bg-cyan-200 ',
-    selected: 'border-cyan-950 bg-cyan-400 '
+    selected: 'border-cyan-700 bg-cyan-400 ',
+    mainExpression: 'border-cyan-400 bg-cyan-300'
   }
   let isSelected = false
 
@@ -23,7 +25,7 @@ export default function Cell({ index, symbol, value, selectedId, selectedIcon, o
     isSelected = true
   }
 
-  const cellVar = isSelected?'selected':'normal'
+  const cellVar = isSelected?'selected':isMainExpression?'mainExpression':'normal'
 
   return(
     <button
@@ -32,7 +34,7 @@ export default function Cell({ index, symbol, value, selectedId, selectedIcon, o
       onDoubleClick={()=>onDoubleClick(symbol)}
     >
       <div className="text-2xl mx-[2px] px-1 w-8 text-left">{value.toUpperCase()??''}</div>
-      <div className="absolute -top-[1px] -right-[1px] text-sm">{symbol}</div>
+      <div className="absolute -top-[1px] -right-[1px] text-sm">{isMainExpression?'':symbol}</div>
     </button>
   )
 }

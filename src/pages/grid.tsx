@@ -51,7 +51,7 @@ export default function GridGame({ finishGame, gameData }:Props){
         <button>Switch Theme</button>
       </div>
       <div className="text-sm text-justify w-full indent-2 my-1">
-        {gameData.mainExpression.description}
+        {gameData.mainExpression?.question}
       </div>
       <div>
         {

@@ -29,7 +29,8 @@ export default function Line({index, question, word, selectedIndex ,selectedSymb
       {
       word.split('').map(( char, id ) =>{
         const cellId = `${index}-C${id}`
-        const userValue = gridMap.find(cell=>cell.cellIndex===cellId)?.userValue
+        const cell = gridMap.find(cell=>cell.cellIndex===cellId)
+        const userValue = cell?.userValue
         return(
           <Cell
             key={cellId}
@@ -40,6 +41,7 @@ export default function Line({index, question, word, selectedIndex ,selectedSymb
             symbol={lettersData.filter(el=>el.letter===char.toUpperCase())[0].emoji}
             onClick={onCellClick}
             onDoubleClick={onCellDoubleClick}
+            isMainExpression={cell?.isMainExpression}
           />
         )
       })

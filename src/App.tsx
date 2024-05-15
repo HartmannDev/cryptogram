@@ -4,10 +4,16 @@ import StartPage from './pages/start'
 import GridGame from './pages/grid'
 import { emojis } from "./utils/emojis"
 
-type WordsDataType = {
+import { getGameWords, getMainExpretion } from "./services/datamuse"
+import { LettersPosition, setExpressionGripPos } from "./utils/gameSetup"
+import LoadingGame from './pages/loading'
+
+export type WordType = {
   word:string
   question:string
-}[]
+}
+
+type WordsDataType = WordType[]
 
 export type LettersType = {
   letter:string
@@ -18,103 +24,38 @@ export type GridMapType = {
   cellIndex:string
   value:string
   userValue:string
+  isMainExpression:boolean
 }[]
 
 export type GameDataType ={
-  config:{
+  config:{                  //Generica config about the game
     wordLenght:number
     words_quantity:number
   }
-  mainExpression:{
-    description:string
-    expression:string
-  }
-  wordsData:WordsDataType
-  lettersData:LettersType
-  gridMap:GridMapType
+  mainExpression?:WordType  //The WORD displayed vertically in the GRID without symbols
+  wordsData:WordsDataType   //Set of WORDs displayed horizontally in the GRID with symbols
+  lettersData:LettersType   //All the distinct LETTEs from WORDSDATA with their respecttive symbol 
+  gridMap:GridMapType       //Map with all the GRID CELLs used to store the user input 
 }
 
 const gameData:GameDataType = {
   config:{
-    wordLenght:10,
-    words_quantity:15
+    wordLenght:5,
+    words_quantity:5
   },
-  mainExpression:{
-    description: 'asdf asdkjfha lsfhsakdjf haskjhkhklasdf bhkadfkh klsadhf ',
-    expression: 'xxx'
-  },
-  wordsData:[
-    {
-      question: "What is a term for the abrasive quality of a substance?",
-      word: "Abrasively"
-    },
-    {
-      question: "What field of medicine specializes in the study of the heart?",
-      word: "Cardiology"
-    },
-    {
-      question: "What term describes the flow of a river moving towards the sea?",
-      word: "Downstream"
-    },
-    {
-      question: "What word means radiant brightness or splendor?",
-      word: "Effulgence"
-    },
-    {
-      question: "What do you call substances that cannot be dissolved?",
-      word: "Insolvents"
-    },
-    {
-      question: "What word means placed side by side for comparison or contrast?",
-      word: "Juxtaposed"
-    },
-    {
-      question: "What unit of measurement is used to measure distances?",
-      word: "Kilometers"
-    },
-    {
-      question: "What word describes something worthy of grief or regret?",
-      word: "Lamentable"
-    },
-    {
-      question: "What word describes the act of providing with nourishment?",
-      word: "Nourishing"
-    },
-    {
-      question: "What word means to mimic actions or gestures without speech?",
-      word: "Pantomimed"
-    },
-    {
-      question: "What word means to satisfy one's thirst by drinking?",
-      word: "Quenchings"
-    },
-    {
-      question: "What word describes something resonating deeply or strongly?",
-      word: "Resonantly"
-    },
-    {
-      question: "What term means to occur at the same time or rate?",
-      word: "Synchroniz"
-    },
-    {
-      question: "What word describes the act of shortening something by cutting off parts?",
-      word: "Truncating"
-    },
-    {question: "What word means the act of regarding someone with deep respect or reverence?",
-      word: "Veneration"
-    }
-  ],
+  wordsData:[],
   lettersData:[],
   gridMap:[]
 }
 
-const mapGrid = ()=>{
+const mapGrid = (expressionPosition:LettersPosition[])=>{
   gameData.wordsData.map((word, lineID)=>{
     word.word.split('').map((letter, cellID)=>{
       gameData.gridMap.push({
         cellIndex:`L${lineID}-C${cellID}`,
         value:letter.toUpperCase(),
-        userValue:''
+        userValue:'',
+        isMainExpression:expressionPosition[lineID].pos===cellID
       })
     })
   })
@@ -140,14 +81,33 @@ const getWordsLetters = (wordsData:WordsDataType)=>{
   return letters
 }
 
-gameData.lettersData = getWordsLetters(gameData.wordsData)
-mapGrid()
-console.log(gameData.gridMap)
+const GameInit = async (setLoadingGame:Function) =>{
+  const wordLenght = gameData.config.wordLenght
+  const expressionLenght = gameData.config.words_quantity
+
+  const mainExpression:WordType = await getMainExpretion(expressionLenght)
+  gameData.mainExpression = mainExpression
+
+  const expressionPosition = setExpressionGripPos(wordLenght, gameData.mainExpression.word)
+  const gameWords:WordType[] = await getGameWords(expressionPosition, wordLenght)
+  gameData.wordsData = gameWords
+  
+  gameData.lettersData = getWordsLetters(gameData.wordsData)
+  mapGrid(expressionPosition)
+  console.log("star game")
+  console.log(gameData)
+  setLoadingGame(false)
+}
 
 function App() {
   const [startGame, setStartGame] = useState(false)
+  const [loardingGame, setLoadingGame] = useState(true)
 
   if(startGame){
+    if(loardingGame){
+      GameInit(setLoadingGame)
+      return <LoadingGame/>
+    }
     return <GridGame finishGame={setStartGame} gameData={gameData}/>
   }
 

@@ -26,14 +26,12 @@ export default function GridGame({ finishGame, reloadGame, gameData }:Props){
     let gameOver = true
     gameData.gridMap.forEach(cell => {
       if(cell.userValue.toUpperCase()!==cell.value.toUpperCase()){
-        console.log("Game running")
         gameOver=false
         return
       }
     })
 
-    if(gameOver){      
-      console.log('Game over')
+    if(gameOver){
       setGameOver(true)
     }
   }  

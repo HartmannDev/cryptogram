@@ -9,7 +9,7 @@ type Props = {
 }
 
 export const GameOver = ({ visible, setVisible, finishGame, reloadGame }:Props)=>{
-  const modalRef = useRef(null)
+  const modalRef = useRef<HTMLDivElement | null>(null)
 
   return (
     <>
@@ -17,10 +17,7 @@ export const GameOver = ({ visible, setVisible, finishGame, reloadGame }:Props)=
         <div
           className="absolute flex flex-row top-0 left-0 w-full h-full z-50 justify-center items-center bg-cyan-400 bg-opacity-40"
           onClick={(e) => {
-            if (modalRef.current.contains(e.target)??true) {
-              return
-            }
-            console.log('trying to close')
+            if (modalRef.current?.contains(e.target as Node)??true) return
             setVisible(false)
           }}
         >

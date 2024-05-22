@@ -121,7 +121,6 @@ const reloadGame = (setGameStatus:Function)=>{
 
 function App() {
   const [gameStatus, setGameStatus] = useState('menu')
-  console.log(gameStatus, newGame)
   const isLoading = gameStatus==='loading'
 
   if(isLoading&&newGame){

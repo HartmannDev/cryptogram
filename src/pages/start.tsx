@@ -16,7 +16,7 @@ export default function StartPage({ startGame }:{startGame:Function}){
         <span>Games rules:</span>
         <ul className="list-disc list-inside">
             {gameRules.gameRules.map((rule, index)=>{
-              return <li id={'li'+index}>{rule}</li>
+              return <li key={'li'+index}>{rule}</li>
             })}
         </ul>
       </div>

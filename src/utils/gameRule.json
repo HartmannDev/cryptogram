@@ -1,0 +1,8 @@
+{
+  "gameRules":[
+    "each number or symbol on the grid game represent a letter;",
+    "the question or description on the left should be answered horizontally in the same line;",
+    "the main expression, question or description on the top, refers to the empty cell disposed vertically;",
+    "once all the words are solved, the main expression will be solved too and the puzzle solved;"
+  ]
+}

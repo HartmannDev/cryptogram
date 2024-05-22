@@ -38,7 +38,7 @@ export const getGameWords = async (expressionPosition:LettersPosition[], wordsLe
     const exItem = expressionPosition[i]
     const wordLenght = Array(wordsLenght).fill('?')
     wordLenght[exItem.pos] = exItem.letter
-    const url = `https://api.datamuse.com/words?sp=${wordLenght.join('')}&md=d`
+    const url = `https://api.datamuse.com/words?sp=${wordLenght.join('')}&md=d&max=30`
 
     const response = await fetch(url)
     const data = await response.json()
@@ -57,7 +57,7 @@ const getArrayRandomPosition = (arr:datamuseResponseType[], wordLenght?:number):
   let randonPos = 0
 
   do{
-    randonPos = Math.round(Math.random()*arr.length)
+    randonPos = Math.round(Math.random()*(arr.length-1))
     if(!wordLenght){
       break
     }

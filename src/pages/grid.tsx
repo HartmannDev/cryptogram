@@ -2,21 +2,41 @@ import { useEffect, useState } from "react"
 
 import Line from "../components/line"
 import { GameDataType } from '../App'
+import { GameOver } from "../components/gameOver"
+import { Button } from "../components/button"
 
 type Props = {
-  finishGame:Function,
+  finishGame:Function
+  reloadGame:Function
   gameData:GameDataType
 }
 
-export default function GridGame({ finishGame, gameData }:Props){
+export default function GridGame({ finishGame, reloadGame, gameData }:Props){
   const [selectedCell, setSelectedCell] = useState('')
   const [selectedSymbol, setSelectedSymbol] = useState('')
+  const [gameOver, setGameOver] = useState(false)
 
   const [keyPressed, setKeyPressed] = useState(false)
 
   useEffect(()=>{
     setSelectedSymbol('')
   },[selectedCell])
+
+  const isGameOver = ()=>{
+    let gameOver = true
+    gameData.gridMap.forEach(cell => {
+      if(cell.userValue.toUpperCase()!==cell.value.toUpperCase()){
+        console.log("Game running")
+        gameOver=false
+        return
+      }
+    })
+
+    if(gameOver){      
+      console.log('Game over')
+      setGameOver(true)
+    }
+  }  
 
   const handleKeyDown = (event:React.KeyboardEvent<HTMLDivElement>)=>{
     if((selectedSymbol!=='')||(selectedCell==='')){
@@ -37,6 +57,7 @@ export default function GridGame({ finishGame, gameData }:Props){
 
     const cellIndex = gameData.gridMap.findIndex(el=>el.cellIndex===selectedCell)
     gameData.gridMap[cellIndex].userValue = key.toUpperCase()
+    isGameOver()
     setKeyPressed(!keyPressed)
   }
 
@@ -73,7 +94,11 @@ export default function GridGame({ finishGame, gameData }:Props){
           })
         }
       </div>
-      <button onClick={()=>finishGame('menu')}>come back</button>
+      <div>
+        <Button label='Menu' onClick={()=>finishGame()}/>
+        <Button label='Reload' onClick={()=>reloadGame()}/>
+      </div>
+      <GameOver visible={gameOver} setVisible={setGameOver} finishGame={()=>finishGame()} reloadGame={()=>reloadGame()} />
     </div>
   )
 }

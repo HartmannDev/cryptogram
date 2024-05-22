@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily:{
-        logo:['"Oswald"', 'sans-serif']
+        sans:['"Oswald"', 'sans-serif']
       }
     },
   },

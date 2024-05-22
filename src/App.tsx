@@ -100,22 +100,45 @@ const GameInit = async (setLoadingGame:Function) =>{
   setLoadingGame('running')
 }
 
-const resetGame = (setGameStatus:Function)=>{
+const clearPreviousGameData = ()=>{
+  gameData.wordsData = []
+  gameData.lettersData = []
+  gameData.gridMap = []
+  delete gameData.mainExpression
+}
+
+const finishGame = (setGameStatus:Function)=>{
   setGameStatus('menu')
   newGame = true
+  clearPreviousGameData()
+}
+
+const reloadGame = (setGameStatus:Function)=>{
+  setGameStatus('loading')
+  newGame = true
+  clearPreviousGameData()
 }
 
 function App() {
   const [gameStatus, setGameStatus] = useState('menu')
+  console.log(gameStatus, newGame)
+  const isLoading = gameStatus==='loading'
 
-  if(gameStatus==='loading'&&newGame){
+  if(isLoading&&newGame){
     newGame = false
     GameInit(setGameStatus)
+  }
+
+  if(isLoading){
     return <LoadingGame/>
   }
 
   if(gameStatus==='running'){
-    return <GridGame finishGame={()=>resetGame(setGameStatus)} gameData={gameData}/>
+    return <GridGame
+      finishGame={()=>{finishGame(setGameStatus)}}
+      reloadGame={()=>{reloadGame(setGameStatus)}}
+      gameData={gameData}
+    />
   }
 
   return <StartPage startGame={setGameStatus}/>

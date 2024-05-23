@@ -1,3 +1,5 @@
+import { transform } from 'typescript';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -8,6 +10,28 @@ export default {
     extend: {
       fontFamily:{
         sans:['"Oswald"', 'sans-serif']
+      },
+      keyframes:{
+        puzzleFoward:{
+          from: {
+            transform: "rotate(0deg) translate(50px)"
+          },
+          to: {
+            transform: "rotate(360deg) translate(50px)"
+          }
+        },
+        puzzleBackward:{
+          from: {
+            transform: "rotate(0deg)"
+          },
+          to: {
+            transform: "rotate(-360deg)"
+          }
+        }
+      },
+      animation: {
+        "puzzleF": "puzzleFoward 2s linear infinite",
+        "puzzleB": "puzzleBackward 2s linear infinite",
       }
     },
   },

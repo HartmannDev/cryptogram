@@ -4,6 +4,7 @@ import Line from "../components/line"
 import { GameDataType } from '../App'
 import { GameOver } from "../components/gameOver"
 import { Button } from "../components/button"
+import { Timer } from "../components/timer"
 
 type Props = {
   finishGame:Function
@@ -67,6 +68,7 @@ export default function GridGame({ finishGame, reloadGame, gameData }:Props){
     >
       <div className='flex justify-between w-full'>
         <h1 className='font-logo text-lg text-center'>🔎Cryptogram</h1>
+        <Timer startTime={gameData.startedAt}/>
         <button>Switch Theme</button>
       </div>
       <div className="text-sm text-justify w-full indent-2 my-1">
@@ -92,11 +94,17 @@ export default function GridGame({ finishGame, reloadGame, gameData }:Props){
           })
         }
       </div>
-      <div>
+      <div className="flex flex-row gap-4">
         <Button label='Menu' onClick={()=>finishGame()}/>
         <Button label='Reload' onClick={()=>reloadGame()}/>
       </div>
-      <GameOver visible={gameOver} setVisible={setGameOver} finishGame={()=>finishGame()} reloadGame={()=>reloadGame()} />
+      <GameOver
+        visible={gameOver}
+        setVisible={setGameOver}
+        finishGame={()=>finishGame()}
+        reloadGame={()=>reloadGame()}
+        startDate={gameData.startedAt}
+      />
     </div>
   )
 }

@@ -6,10 +6,16 @@ type Props = {
   setVisible:Function
   finishGame:Function
   reloadGame:Function
+  startDate:number
 }
 
-export const GameOver = ({ visible, setVisible, finishGame, reloadGame }:Props)=>{
+export const GameOver = ({ visible, setVisible, finishGame, reloadGame, startDate }:Props)=>{
   const modalRef = useRef<HTMLDivElement | null>(null)
+
+  const time = Date.now() - startDate
+  const hours = Math.floor((time / (1000 * 60 * 60)) % 24)
+  const minutes = Math.floor((time / (1000 * 60)) % 60)
+  const seconds = Math.floor((time / 1000) % 60)
 
   return (
     <>
@@ -24,7 +30,7 @@ export const GameOver = ({ visible, setVisible, finishGame, reloadGame }:Props)=
           <div className="flex flex-col justify-center items-center bg-cyan-500 rounded-2xl p-5 shadow-md border-b-2 border-cyan-600" ref={modalRef}>
             <h1 className="text-3xl">Congrats!</h1>
             <p className="text-lg">You've completed this puzzel</p>
-            <span className="text-lg mb-2">Time: 00:00</span>
+            <span className="text-lg mb-2">{`Time: ${hours<10?'0':''}${hours}:${minutes<10?'0':''}${minutes}:${seconds<10?'0':''}${seconds}`}</span>
             <div className="grid grid-flow-col gap-3">
               <Button label='Menu' onClick={()=>{
                 setVisible(false)

@@ -35,7 +35,8 @@ export type GameDataType ={
   mainExpression?:WordType  //The WORD displayed vertically in the GRID without symbols
   wordsData:WordsDataType   //Set of WORDs displayed horizontally in the GRID with symbols
   lettersData:LettersType   //All the distinct LETTEs from WORDSDATA with their respecttive symbol 
-  gridMap:GridMapType       //Map with all the GRID CELLs used to store the user input 
+  gridMap:GridMapType       //Map with all the GRID CELLs used to store the user input
+  startedAt:number          //Moment when the game start
 }
 
 const gameData:GameDataType = {
@@ -45,7 +46,8 @@ const gameData:GameDataType = {
   },
   wordsData:[],
   lettersData:[],
-  gridMap:[]
+  gridMap:[],
+  startedAt: 0
 }
 
 let newGame = true
@@ -97,6 +99,7 @@ const GameInit = async (setLoadingGame:Function) =>{
   gameData.lettersData = getWordsLetters(gameData.wordsData)
   mapGrid(expressionPosition)
   console.log(gameData)
+  gameData.startedAt = Date.now()
   setLoadingGame('running')
 }
 
@@ -104,6 +107,7 @@ const clearPreviousGameData = ()=>{
   gameData.wordsData = []
   gameData.lettersData = []
   gameData.gridMap = []
+  gameData.startedAt = 0
   delete gameData.mainExpression
 }
 

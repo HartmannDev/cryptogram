@@ -3,7 +3,7 @@ import gameRules from "../utils/gameRule.json"
 
 export default function StartPage({ startGame }:{startGame:Function}){
   return(
-    <div className='flex flex-col h-screen justify-between content-center items-center px-20 py-20 bg-gray-300'>
+    <div className='flex flex-col h-screen justify-between content-center items-center px-20 pt-2 pb-20 bg-gray-300'>
       <div className='flex justify-end w-full'>        
         <button>Switch Theme</button>
       </div>

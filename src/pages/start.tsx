@@ -1,7 +1,18 @@
+import { useState } from "react"
+import { GameConfigType } from "../App"
 import { Button } from "../components/button"
+import { GameSetup } from "../components/setup"
 import gameRules from "../utils/gameRule.json"
 
-export default function StartPage({ startGame }:{startGame:Function}){
+type Props = {
+  startGame:Function
+  gameConfig:GameConfigType
+  saveConfig: Function
+}
+
+export default function StartPage({ startGame, gameConfig, saveConfig }:Props){
+  const [showSetup, setShowSetup] = useState(false)
+
   return(
     <div className='flex flex-col h-screen justify-between content-center items-center px-20 pt-2 pb-20 bg-gray-300'>
       <div className='flex justify-end w-full'>        
@@ -20,9 +31,11 @@ export default function StartPage({ startGame }:{startGame:Function}){
             })}
         </ul>
       </div>
-      <div className='flex justify-center'>
+      <div className='flex justify-center gap-4'>
+        <Button label="⚙️Setup" onClick={()=>setShowSetup(true)}/>
         <Button label="Start" onClick={()=>{startGame('loading')}}/>
       </div>
+      <GameSetup visible={showSetup} config={gameConfig} setVisible={setShowSetup} saveSetup={saveConfig} />
     </div>
   )
 }

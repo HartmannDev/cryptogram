@@ -27,11 +27,13 @@ export type GridMapType = {
   isMainExpression:boolean
 }[]
 
+export type GameConfigType = {
+  wordLenght:number
+  words_quantity:number
+}
+
 export type GameDataType ={
-  config:{                  //Generica config about the game
-    wordLenght:number
-    words_quantity:number
-  }
+  config:GameConfigType                  //Generica config about the game
   mainExpression?:WordType  //The WORD displayed vertically in the GRID without symbols
   wordsData:WordsDataType   //Set of WORDs displayed horizontally in the GRID with symbols
   lettersData:LettersType   //All the distinct LETTEs from WORDSDATA with their respecttive symbol 
@@ -41,8 +43,8 @@ export type GameDataType ={
 
 const gameData:GameDataType = {
   config:{
-    wordLenght:5,
-    words_quantity:5
+    wordLenght:9,
+    words_quantity:13
   },
   wordsData:[],
   lettersData:[],
@@ -123,6 +125,11 @@ const reloadGame = (setGameStatus:Function)=>{
   clearPreviousGameData()
 }
 
+const setGameConfig = (config:GameConfigType)=>{
+  gameData.config = config
+  console.log(gameData, config)
+}
+
 function App() {
   const [gameStatus, setGameStatus] = useState('menu')
   const isLoading = gameStatus==='loading'
@@ -144,7 +151,7 @@ function App() {
     />
   }
 
-  return <StartPage startGame={setGameStatus}/>
+  return <StartPage startGame={setGameStatus} gameConfig={gameData.config} saveConfig={setGameConfig}/>
 }
 
 export default App

@@ -16,7 +16,7 @@ export default function StartPage({ startGame, gameConfig, saveConfig }:Props){
   return(
     <div className='flex flex-col h-screen justify-between content-center items-center px-20 pt-2 pb-20 bg-gray-300'>
       <div className='flex justify-end w-full'>        
-        <button>Switch Theme</button>
+        <button></button>
       </div>
       <h1 className='font-logo text-7xl text-center'>🔎Cryptogram</h1>
       <div className='flex flex-col max-w-2xl indent-2'>

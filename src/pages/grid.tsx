@@ -69,7 +69,7 @@ export default function GridGame({ finishGame, reloadGame, gameData }:Props){
       <div className='flex justify-between w-full'>
         <h1 className='font-logo text-lg text-center'>🔎Cryptogram</h1>
         <Timer startTime={gameData.startedAt}/>
-        <button>Switch Theme</button>
+        <button></button>
       </div>
       <div className="text-sm text-justify w-full indent-2 my-1">
         {gameData.mainExpression?.question}

@@ -32,6 +32,7 @@ export default {
       animation: {
         "puzzleF": "puzzleFoward 2s linear infinite",
         "puzzleB": "puzzleBackward 2s linear infinite",
+        "textPulse": "pulse 2s linear 1"
       }
     },
   },

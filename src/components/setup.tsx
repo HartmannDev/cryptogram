@@ -33,7 +33,7 @@ export const GameSetup = ({ visible, setVisible, config, saveSetup }:Props)=>{
                 <InputNumber initialValue={wordLenght} setValue={setWordLenght} range={{min:5, max:11}}/>
               </li>
               <li className="my-4">Quantity of words shown on the grip (vertically):
-                <InputNumber initialValue={wordLenght} setValue={setWordQtd} range={{min:5, max:16}}/>
+                <InputNumber initialValue={wordQtd} setValue={setWordQtd} range={{min:5, max:16}}/>
               </li>
             </ul>
             <Button label='Save config' onClick={()=>{

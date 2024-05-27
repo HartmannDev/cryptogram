@@ -55,6 +55,7 @@ export const getGameWords = async (expressionPosition:LettersPosition[], wordsLe
 const getArrayRandomPosition = (arr:datamuseResponseType[], wordLenght?:number):datamuseResponseType=>{
   let isWordValid = true
   let randonPos = 0
+  const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
 
   do{
     randonPos = Math.round(Math.random()*(arr.length-1))
@@ -65,7 +66,8 @@ const getArrayRandomPosition = (arr:datamuseResponseType[], wordLenght?:number):
     try{
       const isWordLenghtCorrect = item.word.replace(' ', '').length === wordLenght
       const hasDefinition = item.hasOwnProperty('defs')
-      if(isWordLenghtCorrect&&hasDefinition){
+      const hasSpecialChar = format.test(item.word)
+      if(isWordLenghtCorrect&&hasDefinition&&hasSpecialChar){
         isWordValid = true
       }
     }catch(err){

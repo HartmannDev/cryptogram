@@ -100,7 +100,6 @@ const GameInit = async (setLoadingGame:Function) =>{
   
   gameData.lettersData = getWordsLetters(gameData.wordsData)
   mapGrid(expressionPosition)
-  console.log(gameData)
   gameData.startedAt = Date.now()
   setLoadingGame('running')
 }
@@ -127,7 +126,6 @@ const reloadGame = (setGameStatus:Function)=>{
 
 const setGameConfig = (config:GameConfigType)=>{
   gameData.config = config
-  console.log(gameData, config)
 }
 
 function App() {

@@ -129,6 +129,7 @@ export default function GridGame({ finishGame, reloadGame, gameData }:Props){
                 onCellDoubleClick={setSelectedSymbol}
                 lettersData={gameData.lettersData}
                 gridMap={gameData.gridMap}
+                symbolType={gameData.config.symbolType}
               />
             )
           })

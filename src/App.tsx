@@ -30,6 +30,7 @@ export type GridMapType = {
 export type GameConfigType = {
   wordLenght:number
   words_quantity:number
+  symbolType:'s'|'n'
 }
 
 export type GameDataType ={
@@ -44,7 +45,8 @@ export type GameDataType ={
 const gameData:GameDataType = {
   config:{
     wordLenght:9,
-    words_quantity:13
+    words_quantity:13,
+    symbolType: 's'
   },
   wordsData:[],
   lettersData:[],

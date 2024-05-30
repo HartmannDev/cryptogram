@@ -11,10 +11,11 @@ type Props = {
   onCellClick:Function
   onCellDoubleClick:Function
   lettersData:LettersType,
-  gridMap:GridMapType
+  gridMap:GridMapType,
+  symbolType:'s'|'n'
 }
 
-export default function Line({index, question, word, selectedIndex ,selectedSymbol , onCellClick, onCellDoubleClick, lettersData, gridMap}:Props){
+export default function Line({index, question, word, selectedIndex ,selectedSymbol , onCellClick, onCellDoubleClick, lettersData, gridMap, symbolType}:Props){
   const [popover, setPopover] = useState(false)
   const lineVariants = {
     normal: 'border-cyan-500  bg-cyan-200',
@@ -52,6 +53,8 @@ export default function Line({index, question, word, selectedIndex ,selectedSymb
         const cellId = `${index}-C${id}`
         const cell = gridMap.find(cell=>cell.cellIndex===cellId)
         const userValue = cell?.userValue
+        const letterIndex = lettersData.findIndex(el=>el.letter===char.toUpperCase())
+        const symbol = symbolType==='s'?lettersData[letterIndex].emoji:`${letterIndex+1}`
         return(
           <Cell
             key={cellId}
@@ -59,7 +62,7 @@ export default function Line({index, question, word, selectedIndex ,selectedSymb
             value={userValue??''}
             selectedId={selectedIndex}
             selectedIcon={selectedSymbol}
-            symbol={lettersData.filter(el=>el.letter===char.toUpperCase())[0].emoji}
+            symbol={symbol}
             onClick={onCellClick}
             onDoubleClick={onCellDoubleClick}
             isMainExpression={cell?.isMainExpression}

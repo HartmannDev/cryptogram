@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { Button } from "./button";
 import { GameConfigType } from "../App";
 import { InputNumber } from "./inputNumber";
+import { Slider } from "./slider";
 
 type Props = {
   visible:boolean
@@ -15,6 +16,15 @@ export const GameSetup = ({ visible, setVisible, config, saveSetup }:Props)=>{
 
   const [wordLenght, setWordLenght] = useState(config.wordLenght)
   const [wordQtd, setWordQtd] = useState(config.words_quantity)
+  const [symbolType, setSymbolType] = useState(config.symbolType)
+
+  const selectSymbolType = (slideStatus:boolean)=>{
+    if(slideStatus){
+      setSymbolType('s')
+    }else{
+      setSymbolType('n')
+    }
+  }
 
   return (
     <>
@@ -35,12 +45,17 @@ export const GameSetup = ({ visible, setVisible, config, saveSetup }:Props)=>{
               <li className="my-4">Quantity of words shown on the grip (vertically):
                 <InputNumber initialValue={wordQtd} setValue={setWordQtd} range={{min:5, max:16}}/>
               </li>
+              <li className="my-4">Symbol shownd on grid:
+                <Slider onChange={selectSymbolType}/>
+              </li>
             </ul>
             <Button label='Save config' onClick={()=>{
               const newConfig:GameConfigType = {
                 wordLenght: wordLenght,
-                words_quantity: wordQtd
+                words_quantity: wordQtd,
+                symbolType: symbolType
               }
+              console.log(newConfig)
               saveSetup(newConfig)
               setVisible(false)
             }}/>

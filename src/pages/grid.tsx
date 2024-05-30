@@ -35,10 +35,47 @@ export default function GridGame({ finishGame, reloadGame, gameData }:Props){
     if(gameOver){
       setGameOver(true)
     }
-  }  
+  }
+
+  const moveSelection = (key:string)=>{
+    const line = Number(selectedCell.split('-')[0].replace('L',''))
+    const cell = Number(selectedCell.split('-')[1].replace('C',''))
+    const horizontalLimite = gameData.config.wordLenght-1
+    const vertivalLimit = gameData.config.words_quantity-1
+    let newCell = ''
+    let moviment
+    let corretMoviment
+
+    switch(key){
+      case 'ArrowRight':
+        moviment = cell+1
+        corretMoviment = moviment>horizontalLimite?cell:moviment
+        newCell = `L${line}-C${corretMoviment}`
+        setSelectedCell(newCell)
+        break
+      case 'ArrowLeft':
+        moviment = cell-1
+        corretMoviment = moviment<0?cell:moviment
+        newCell = `L${line}-C${corretMoviment}`
+        setSelectedCell(newCell)
+        break
+      case 'ArrowUp':
+        moviment = line-1
+        corretMoviment = moviment<0?cell:moviment
+        newCell = `L${moviment}-C${cell}`
+        setSelectedCell(newCell)
+        break
+      case 'ArrowDown':
+        moviment = line+1
+        corretMoviment = moviment>vertivalLimit?cell:moviment
+        newCell = `L${corretMoviment}-C${cell}`
+        setSelectedCell(newCell)
+        break
+    }
+  }
 
   const handleKeyDown = (event:React.KeyboardEvent<HTMLDivElement>)=>{
-    if((selectedSymbol!=='')||(selectedCell==='')){
+    if(selectedCell===''){
       return
     }
     let key = event.key
@@ -50,6 +87,9 @@ export default function GridGame({ finishGame, reloadGame, gameData }:Props){
       if((key==='Delete')||(key==='Backspace')){
         key = ''
       }else{
+        if(key.match(/^Arrow/g)){
+          moveSelection(key)
+        }
         return
       }
     }
